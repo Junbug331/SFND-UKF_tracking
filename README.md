@@ -1,12 +1,9 @@
 # SFND_Unscented_Kalman_Filter
 
-The main program can be built and ran by doing the following from the project top directory.
+Udacity course project which implements Unscented Kalman Filter algorithm to estimate state of cars around ego vehicle.
 
-1. mkdir build
-2. cd build
-3. cmake ..
-4. make
-5. ./ukf_highway
+![](img/img.png)
+
 
 ---
 
