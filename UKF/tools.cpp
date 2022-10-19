@@ -42,6 +42,7 @@ rmarker Tools::radarSense(Car& car, Car ego, pcl::visualization::PCLVisualizer::
 	double phi = atan2(car.position.y-ego.position.y,car.position.x-ego.position.x);
 	double rho_dot = (car.velocity*cos(car.angle)*rho*cos(phi) + car.velocity*sin(car.angle)*rho*sin(phi))/rho;
 
+    // Add noise
 	rmarker marker = rmarker(rho+noise(0.3,timestamp+2), phi+noise(0.03,timestamp+3), rho_dot+noise(0.3,timestamp+4));
 	if(visualize)
 	{
@@ -51,6 +52,8 @@ rmarker Tools::radarSense(Car& car, Car ego, pcl::visualization::PCLVisualizer::
 	
 	MeasurementPackage meas_package;
 	meas_package.sensor_type_ = MeasurementPackage::RADAR;
+
+    // Measurement with noise
     meas_package.raw_measurements_ = VectorXd(3);
     meas_package.raw_measurements_ << marker.rho, marker.phi, marker.rho_dot;
     meas_package.timestamp_ = timestamp;

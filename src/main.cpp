@@ -17,7 +17,8 @@ int main(int argc, char* argv[])
 
 	//initHighway(viewer);
 
-	int frame_per_sec = 30;
+	int frame_per_sec = 30; // 30 fps
+    // 1/frame_per_sec => sec per 1 frame
 	int sec_interval = 10;
 	int frame_count = 0;
 	int time_us = 0;
@@ -31,9 +32,9 @@ int main(int argc, char* argv[])
 
 		//stepHighway(egoVelocity,time_us, frame_per_sec, viewer);
 		highway.stepHighway(egoVelocity,time_us, frame_per_sec, viewer);
-		viewer->spinOnce(1000/frame_per_sec);
+		viewer->spinOnce(1000/frame_per_sec); // milli sec per 1 frame
 		frame_count++;
-		time_us = 1000000*frame_count/frame_per_sec;
+		time_us = 1000000*frame_count/frame_per_sec; // microsecond
 	}
 
 	/*

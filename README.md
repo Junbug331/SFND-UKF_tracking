@@ -2,7 +2,7 @@
 
 Udacity course project which implements Unscented Kalman Filter algorithm to estimate state of cars around ego vehicle.
 
-![](img/img.png)
+![](img/ukf.png)
 
 
 ---

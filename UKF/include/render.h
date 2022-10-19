@@ -144,13 +144,13 @@ struct Car
 		steering = setSteer;
 	}
 
-	void setInstructions(std::vector<accuation> setIn)
+	void setInstructions(const std::vector<accuation>& setIn)
 	{
-		for(accuation a : setIn)
+		for(const accuation& a : setIn)
 			instructions.push_back(a);
 	}
 
-	void setUKF(UKF tracker)
+	void setUKF(const UKF& tracker)
 	{
 		ukf = tracker;
 	}

@@ -16,12 +16,11 @@ Highway::Highway(pcl::visualization::PCLVisualizer::Ptr& viewer)
     car1_instructions.push_back(a);
     a = accuation(4.4*1e6, -2.0, 0.0);
     car1_instructions.push_back(a);
-
     car1.setInstructions(car1_instructions);
     if( trackCars[0] )
     {
-    UKF ukf1;
-    car1.setUKF(ukf1);
+        UKF ukf1;
+        car1.setUKF(ukf1);
     }
     traffic.push_back(car1);
 
@@ -34,8 +33,8 @@ Highway::Highway(pcl::visualization::PCLVisualizer::Ptr& viewer)
     car2.setInstructions(car2_instructions);
     if( trackCars[1] )
     {
-    UKF ukf2;
-    car2.setUKF(ukf2);
+        UKF ukf2;
+        car2.setUKF(ukf2);
     }
     traffic.push_back(car2);
 
@@ -58,8 +57,8 @@ Highway::Highway(pcl::visualization::PCLVisualizer::Ptr& viewer)
     car3.setInstructions(car3_instructions);
     if( trackCars[2] )
     {
-    UKF ukf3;
-    car3.setUKF(ukf3);
+        UKF ukf3;
+        car3.setUKF(ukf3);
     }
     traffic.push_back(car3);
 
@@ -82,7 +81,6 @@ void Highway::stepHighway(double egoVelocity, long long timestamp, int frame_per
         renderPointCloud(viewer, trafficCloud, "trafficCloud", Color((float)184/256,(float)223/256,(float)252/256));
     }
 
-
     // render highway environment with poles
     renderHighway(egoVelocity*timestamp/1e6, viewer);
     egoCar.render(viewer);
@@ -98,9 +96,11 @@ void Highway::stepHighway(double egoVelocity, long long timestamp, int frame_per
             VectorXd gt(4);
             gt << traffic[i].position.x, traffic[i].position.y, traffic[i].velocity*cos(traffic[i].angle), traffic[i].velocity*sin(traffic[i].angle);
             tools.ground_truth.push_back(gt);
-            tools.lidarSense(traffic[i], viewer, timestamp, visualize_lidar);
-            tools.radarSense(traffic[i], egoCar, viewer, timestamp, visualize_radar);
-            tools.ukfResults(traffic[i],viewer, projectedTime, projectedSteps);
+
+            // Simulating measurement input
+            tools.lidarSense(traffic[i], viewer, timestamp, visualize_lidar); // noise will be added
+            tools.radarSense(traffic[i], egoCar, viewer, timestamp, visualize_radar); // noise will be added
+            tools.ukfResults(traffic[i], viewer, projectedTime, projectedSteps);
             VectorXd estimate(4);
             double v  = traffic[i].ukf.x_(2);
             double yaw = traffic[i].ukf.x_(3);
@@ -108,7 +108,6 @@ void Highway::stepHighway(double egoVelocity, long long timestamp, int frame_per
             double v2 = sin(yaw)*v;
             estimate << traffic[i].ukf.x_[0], traffic[i].ukf.x_[1], v1, v2;
             tools.estimations.push_back(estimate);
-
         }
     }
     viewer->addText("Accuracy - RMSE:", 30, 300, 20, 1, 1, 1, "rmse");
